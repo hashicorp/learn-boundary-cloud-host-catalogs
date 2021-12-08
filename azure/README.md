@@ -1,6 +1,6 @@
 # Azure Resource Manager deployment
 
-This directory contains a template file for deploying a lab environment using the [Azure Resource Manager (ARM)](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/overview).
+This directory contains a template file for deploying a lab environment using the [Azure Resource Manager (ARM)](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/overview) and a `terraform/` directory for provisioning the lab environment with Terraform instead. Please note that the template and Terraform are separate deployment strategies.
 
 The template is meant to be used with a [Template deployment](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/syntax) that can be launched using the Azure Portal or Azure CLI.
 
