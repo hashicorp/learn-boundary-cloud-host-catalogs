@@ -1,4 +1,4 @@
-# Azure Resource Manager deployment
+# AWS deployment with CloudFormation or Terraform
 
 This directory contains a template file for deploying a lab environment using the [CloudFormation](https://docs.aws.amazon.com/cloudformation/) and a `terraform/` directory for provisioning the lab environment with Terraform instead. Please note that the template and Terraform are separate deployment strategies.
 
