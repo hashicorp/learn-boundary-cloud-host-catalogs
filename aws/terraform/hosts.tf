@@ -25,6 +25,35 @@ resource "aws_subnet" "boundary_hosts_subnet" {
   }
 }
 
+# enable these resources if you want to enable SSH access to the instances later via
+# Boundary. You will also need to provide the key_name attribute to aws_instance
+#
+# resource "aws_internet_gateway" "boundary_gateway" { vpc_id =
+#   aws_vpc.boundary_hosts_vpc.id
+
+#   tags = {
+#     Name = "boundary_hosts_internet_gateway"
+#   }
+# }
+
+# resource "aws_route_table" "boundary_hosts_public_rt" {
+#   vpc_id = aws_vpc.boundary_hosts_vpc.id
+
+#   route {
+#     cidr_block = "0.0.0.0/0"
+#     gateway_id = aws_internet_gateway.boundary_gateway.id
+#   }
+
+#   tags = {
+#     Name = "boundary_hosts_public_route_table"
+#   }
+# }
+
+# resource "aws_route_table_association" "public_1_rt_a" {
+#   subnet_id      = aws_subnet.boundary_hosts_subnet.id
+#   route_table_id = aws_route_table.boundary_hosts_public_rt.id
+# }
+
 resource "aws_security_group" "boundary_ssh" {
   name        = "boundary_allow_ssh"
   description = "Allow SSH inbound traffic"
@@ -64,6 +93,7 @@ resource "aws_instance" "boundary_instance" {
   count                  = length(var.instances)
   ami                    = "ami-083602cee93914c0c"
   instance_type          = "t3.micro"
+#  key_name               = "NAME_OF_EC2_KEYPAIR" # enable to log in to the instances
   subnet_id              = aws_subnet.boundary_hosts_subnet.id
   vpc_security_group_ids = [aws_security_group.boundary_ssh.id]
   tags                   = var.vm_tags[count.index]
