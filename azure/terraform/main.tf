@@ -39,6 +39,7 @@ data "azuread_client_config" "current" {}
 
 resource "azuread_application" "boundary_app" {
   display_name = "boundary_app"
+  owners       = [data.azuread_client_config.current.object_id]
 
   app_role {
     allowed_member_types = ["Application"]
@@ -53,9 +54,11 @@ resource "azuread_application" "boundary_app" {
 # Create a service principle for the application
 resource "azuread_service_principal" "boundary_service_principal" {
   application_id = azuread_application.boundary_app.application_id
+  app_role_assignment_required = false
+  owners         = [data.azuread_client_config.current.object_id]
 }
 
-# Assign the Contributor role to the Subscription
+# Assign the Contributor role to the application service principle
 resource "azurerm_role_assignment" "contributor_role_assignment" {
   scope                = data.azurerm_subscription.primary.id
   role_definition_name = "Contributor"
